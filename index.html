@@ -1,162 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Robotic FED22</title>
 
-<!-- Google Fonts-->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-<!--Fontawsome-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
-    
-    <link rel="stylesheet" href="style.css">
-</head>
+    <!-- Google Fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-<body>
+    <!--Fontawsome-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+      crossorigin="anonymous"
+    />
+
+    <script src="script.js" type="module" defer></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
     <header>
-        <h1>FED22 - Business Cards</h1>
+      <h1>FED22 - Business Cards</h1>
     </header>
 
-    <main>
+    <main id="main">
+      <template id="template">
         <div id="card">
-            <span class="profile-background"><img class="profile-image" src="images/robot-profile.png" alt="robot-profile-picture"></span>
-            <h2>Name Namesson</h2>
-            <div class="experience-container">
-                <span class="background-bar">
-                    <span class="html-bar"></span>
-                    <span class="css-bar"></span>
-                    <span class="javascript-bar"></span>
-                </span>
-                <div class="text-container">
-                    <span class="language">
-                        <span class="html-dot dot"></span>
-                        <span class="html-text text">HTML</span>
-                        <span class="html-procent procent">42.5%</span>
-                    </span>
-                    <span class="language">
-                        <span class="css-dot dot"></span>
-                        <span class="css-text text">CSS</span>
-                        <span class="css-procent procent">41%</span>
-                    </span>
-                    <span class="language">
-                        <span class="javascript-dot dot"></span>
-                        <span class="javascript-text text">JavaScript</span>
-                        <span class="javascript-procent procent">6%</span>
-                    </span>
-                </div>
+          <span class="profile-background"
+            ><img
+              class="profile-image"
+              src="images/robot-profile.png"
+              alt="robot-profile-picture"
+          /></span>
+          <h2 class="name">Name Namesson</h2>
+          <!-- <div class="experience-container">
+          <span class="background-bar">
+            <span class="html-bar"></span>
+            <span class="css-bar"></span>
+            <span class="javascript-bar"></span>
+          </span>
+          <div class="text-container">
+            <span class="language">
+              <span class="html-dot dot"></span>
+              <span class="html-text text">HTML</span>
+              <span class="html-procent procent">42.5%</span>
+            </span>
+            <span class="language">
+              <span class="css-dot dot"></span>
+              <span class="css-text text">CSS</span>
+              <span class="css-procent procent">41%</span>
+            </span>
+            <span class="language">
+              <span class="javascript-dot dot"></span>
+              <span class="javascript-text text">JavaScript</span>
+              <span class="javascript-procent procent">6%</span>
+            </span>
+          </div>
+        </div> -->
+
+          <div class="card-footer">
+            <div class="links">
+              <a href="" target="_blank" class="github-link"
+                ><i class="fab fa-github"></i
+              ></a>
+              <a href="" target="_blank" class="email"
+                ><i class="far fa-envelope"></i
+              ></a>
             </div>
 
-            <div class="card-footer">
-                <div class="links">
-                    <a href=""><i class="fab fa-github"></i></a>
-                    <a href=""><i class="far fa-envelope"></i></a>
-                </div>
-                
-                <div class="location-container">
-                    <p class="location">Stockholm City</p>
-                    <a href=""><i class="fas fa-map-marker-alt"></i></a>
-                </div>
+            <div class="location-container">
+              <p class="location">Stockholm City</p>
+              <a href=""><i class="fas fa-map-marker-alt"></i></a>
             </div>
+          </div>
         </div>
-
-        <div id="card">
-            <span class="profile-background"><img class="profile-image" src="images/robot-profile.png" alt="robot-profile-picture"></span>
-            <h2>Name Namesson</h2>
-            <div class="experience-container">
-                <span class="background-bar">
-                    <span class="html-bar"></span>
-                    <span class="css-bar"></span>
-                    <span class="javascript-bar"></span>
-                </span>
-                <div class="text-container">
-                    <span class="language">
-                        <span class="html-dot dot"></span>
-                        <span class="html-text text">HTML</span>
-                        <span class="html-procent procent">42.5%</span>
-                    </span>
-                    <span class="language">
-                        <span class="css-dot dot"></span>
-                        <span class="css-text text">CSS</span>
-                        <span class="css-procent procent">41%</span>
-                    </span>
-                    <span class="language">
-                        <span class="javascript-dot dot"></span>
-                        <span class="javascript-text text">JavaScript</span>
-                        <span class="javascript-procent procent">6%</span>
-                    </span>
-                </div>
-            </div>
-
-            <div class="card-footer">
-                <div class="links">
-                    <a href=""><i class="fab fa-github"></i></a>
-                    <a href=""><i class="far fa-envelope"></i></a>
-                </div>
-                
-                <div class="location-container">
-                    <p class="location">Stockholm City</p>
-                    <a href=""><i class="fas fa-map-marker-alt"></i></a>
-                </div>
-            </div>
-        </div>
-
-
-        <div id="card">
-            <span class="profile-background"><img class="profile-image" src="images/robot-profile.png" alt="robot-profile-picture"></span>
-            <h2>Name Namesson</h2>
-            <div class="experience-container">
-                <span class="background-bar">
-                    <span class="html-bar"></span>
-                    <span class="css-bar"></span>
-                    <span class="javascript-bar"></span>
-                </span>
-                <div class="text-container">
-                    <span class="language">
-                        <span class="html-dot dot"></span>
-                        <span class="html-text text">HTML</span>
-                        <span class="html-procent procent">42.5%</span>
-                    </span>
-                    <span class="language">
-                        <span class="css-dot dot"></span>
-                        <span class="css-text text">CSS</span>
-                        <span class="css-procent procent">41%</span>
-                    </span>
-                    <span class="language">
-                        <span class="javascript-dot dot"></span>
-                        <span class="javascript-text text">JavaScript</span>
-                        <span class="javascript-procent procent">6%</span>
-                    </span>
-                </div>
-            </div>
-
-            <div class="card-footer">
-                <div class="links">
-                    <a href=""><i class="fab fa-github"></i></a>
-                    <a href=""><i class="far fa-envelope"></i></a>
-                </div>
-                
-                <div class="location-container">
-                    <p class="location">Stockholm City</p>
-                    <a href=""><i class="fas fa-map-marker-alt"></i></a>
-                </div>
-            </div>
-        </div>
-
-
-       
+      </template>
     </main>
 
-
-
     <footer>
-        <p class="footer-p">Made with ❤️ by team 4 <a href="#"><i class="fab fa-github"></i></a></p>
+      <p class="footer-p">
+        Made with ❤️ by team 4 <a href="#"><i class="fab fa-github"></i></a>
+      </p>
     </footer>
-  
-
-
-  <script src="script.js"></script>
-</body>
+  </body>
 </html>

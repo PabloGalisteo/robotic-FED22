@@ -19,7 +19,9 @@
       integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
       crossorigin="anonymous"
     />
-
+    <!--Color Api-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.min.js"></script>
+    
     <script src="script.js" type="module" defer></script>
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -28,7 +30,11 @@
     <header>
       <h1>FED22 - Business Cards</h1>
     </header>
-
+    <img
+    class="profile-image"
+    src="images/robot-profile.png"
+    alt="robot-profile-picture"
+/>
     <main id="main">
       <template id="template">
         <div id="card">
@@ -39,30 +45,11 @@
               alt="robot-profile-picture"
           /></span>
           <h2 class="name">Name Namesson</h2>
-          <!-- <div class="experience-container">
-          <span class="background-bar">
-            <span class="html-bar"></span>
-            <span class="css-bar"></span>
-            <span class="javascript-bar"></span>
-          </span>
-          <div class="text-container">
-            <span class="language">
-              <span class="html-dot dot"></span>
-              <span class="html-text text">HTML</span>
-              <span class="html-procent procent">42.5%</span>
-            </span>
-            <span class="language">
-              <span class="css-dot dot"></span>
-              <span class="css-text text">CSS</span>
-              <span class="css-procent procent">41%</span>
-            </span>
-            <span class="language">
-              <span class="javascript-dot dot"></span>
-              <span class="javascript-text text">JavaScript</span>
-              <span class="javascript-procent procent">6%</span>
-            </span>
-          </div>
-        </div> -->
+          
+          <div class="experience-container">
+          <span class="background-bar"></span>
+          <div class="text-container"></div>
+        </div>
 
           <div class="card-footer">
             <div class="links">
@@ -81,6 +68,21 @@
           </div>
         </div>
       </template>
+
+      <!-- template for progress bar -->
+      <template id="progress-template">
+        <span class="progress-bar"></span>
+      </template> 
+
+      <!-- template for languages -->
+      <template id="language-template">
+         <span class="language">
+            <span class="dot"></span>
+            <span class="text"></span>
+            <span class="procent"></span>
+         </span>
+      </template>
+      
     </main>
 
     <footer>
@@ -88,5 +90,6 @@
         Made with ❤️ by team 4 <a href="#"><i class="fab fa-github"></i></a>
       </p>
     </footer>
+
   </body>
 </html>

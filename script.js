@@ -4,36 +4,44 @@ const main = document.getElementById('main');
 const template = document.getElementById('template').content;
 let templateCopy;
 const apiUrl = 'https://api.github.com/users/'
-let userData;
-let projectData;
+//let userData;
+//let projectData;
 let languageData;
+let languageValues;
+let languageKeys;
+const colorThief = new ColorThief();
+let successfulLoop = false;
+let bytesSum;
+
 
 
 //-------------------PROGRAM FLOW-------------------
 
-personsInClass.forEach((person) => {
-  fetchData(person);
+
+personsInClass.forEach(async person => {
+  
+  let userData = await fetchUserData(person);
+  createFedCard(userData, person);
+  let color = fetchColorData();
+  let projectData = await fetchProjectData(person);
+  let experienceArray = await createExperience(projectData, color);
+  convertToPercent (experienceArray);
+  //await createProgressBar(experienceArray);
+  //await createLanguageText(experienceArray);
 });
+ 
 
 
 
 //-------------------FUNCTIONS-------------------
+class Experience {
+  constructor(language, bytes, color) {
+    this.language = language;
+    this.bytes = bytes;
+    this.color = color;
+  }
+} 
 
-async function fetchData(person) {
-  userData = await getData(apiUrl + person.userName);
-  projectData = await getData(apiUrl + person.userName + '/repos');
-
-  languageData = await getData(projectData[0].languages_url);  
-  console.log(languageData);
-
-  projectData.forEach(project => {
-    languageData = await getData(project.languages_url); 
-  });
-
-
-
-  //createFedCard(respData, person);
-}
 
 async function getData(url) {
   const resp = await fetch(url);
@@ -42,10 +50,12 @@ async function getData(url) {
 }
 
 
+async function fetchUserData(person) {
+  return await getData(apiUrl + person.userName);
+};
 
 
-
-function createFedCard(respData, person) { 
+function createFedCard(userData, person) { 
   templateCopy = document.importNode(template, true);
 
   templateCopy.querySelector('.name').textContent = `${person.firstName}  ${person.lastName}`;
@@ -53,14 +63,91 @@ function createFedCard(respData, person) {
   templateCopy.querySelector('.github-link').href = `https://github.com/${person.userName}`;
   templateCopy.querySelector('.email').href = `mailto:${person.firstName}.${person.lastName}@hyperisland.se`;
   
-  if (respData.location == null){
+  if (userData.location == null){
     templateCopy.querySelector('.location').textContent = "Sweden";
   } else {
-    templateCopy.querySelector('.location').textContent = `${respData.location}`;
+    templateCopy.querySelector('.location').textContent = `${userData.location}`;
   }
-
   main.appendChild(templateCopy);
 }
+
+
+function fetchColorData(){
+  const imgElement = document.querySelector('.profile-image');
+  return colorThief.getPalette(imgElement);
+}
+
+
+async function fetchProjectData(person) {
+  return await getData(apiUrl + person.userName + '/repos'); 
+};
+
+
+async function createExperience(projectData, color){
+  let experienceArray = [];
+  await Promise.all(projectData.map(async project => {
+    languageData = await getData(project.languages_url);
+    languageValues = Object.values(languageData);
+    languageKeys = Object.keys(languageData); 
+    
+    if (languageValues.length > 0) { //if project does not contain any languages
+      languageKeys.forEach((language, index) => {
+        if (experienceArray.length == 0){ //for first project of the person
+          experienceArray.push(new Experience(language,languageValues[index],color[index]));
+        } else {
+          experienceArray.forEach(experience => {
+            if(language == experience.language && successfulLoop == false) {
+              experience.bytes += languageValues[index];
+              successfulLoop = true;
+            }
+          });
+          if (successfulLoop == false){
+            experienceArray.push(new Experience(language,languageValues[index],color[index]));
+          }
+          successfulLoop = false;
+        }
+      });
+    }
+  }))
+
+
+  return experienceArray;
+}
+
+
+function convertToPercent(experienceArray){
+  
+  console.log(experienceArray);
+  //console.log(experienceArray[0].bytes);
+  // let testingArray = [
+  //   {
+  //     name: "Elin",
+  //     number: 2
+  //   },
+  //   {
+  //     name: "Hi",
+  //     number: 3
+  //   },
+  //   {
+  //     name: "Hello",
+  //     number: 4
+  //   }
+  // ]
+  // console.log(testingArray);
+  // console.log(testingArray[0].name);
+  experienceArray.forEach(experience => {
+    console.log(experience.bytes);
+  });
+}
+
+
+
+
+
+
+
+
+
 
 
 

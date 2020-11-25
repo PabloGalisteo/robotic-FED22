@@ -6,14 +6,6 @@
 
 :root {
   font-family: "Hind Siliguri", sans-serif;
-  --javascript: #27a9e0;
-  --css: #90278e;
-  --html: #37b34a;
-  --scss: #f6921e;
-  --python: #e9212e;
-  --ruby: #f8ea47;
-  --dockerfile: #a6a88b;
-  --starlark: #895d3b;
   --nightsky: #36334a;
   --light-grey: #c4c4c4;
   --white: #fcfcfc;
@@ -109,21 +101,6 @@ h2 {
   border-left: 0;
 }
 
-.css-bar {
-  background-color: var(--css);
-  width: 40%;
-}
-
-.html-bar {
-  background-color: var(--html);
-  width: 30%;
-}
-
-.javascript-bar {
-  background-color: var(--javascript);
-  width: 30%;
-}
-
 .text-container {
   width: 65%;
   display: flex;
@@ -140,18 +117,6 @@ h2 {
   height: 0.75rem;
   width: 0.75rem;
   border-radius: 100%;
-}
-
-.html-dot {
-  background-color: var(--html);
-}
-
-.css-dot {
-  background-color: var(--css);
-}
-
-.javascript-dot {
-  background-color: var(--javascript);
 }
 
 .text {

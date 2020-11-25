@@ -1,7 +1,4 @@
 import personsInClass from './persondata.js';
-
-const main = document.getElementById('main');
-const template = document.getElementById('template').content;
 const apiUrl = 'https://api.github.com/users/'
 const colorThief = new ColorThief();
 let successfulLoop = false;
@@ -11,17 +8,16 @@ let successfulLoop = false;
 //-------------------PROGRAM FLOW-------------------
 
 
-personsInClass.forEach(async person => {
+Promise.all(personsInClass.map(async (person, index) => {
   let userData = await fetchUserData(person);
   createFedCard(userData, person);
-  let color = fetchColorData();
+  let color = fetchColorData(index);
   let projectData = await fetchProjectData(person);
   let experienceArray = await createExperience(projectData, color);
-  convertToPercent (experienceArray);
-  //await createProgressBar(experienceArray);
-  //await createLanguageText(experienceArray);
-});
- 
+  experienceArray = convertToPercent(experienceArray);
+  createProgressBar(experienceArray, index);
+  createLanguageText(experienceArray, index);
+})); 
 
 
 
@@ -48,25 +44,39 @@ async function fetchUserData(person) {
 
 
 function createFedCard(userData, person) { 
+  const template = document.getElementById('template').content;
   let templateCopy = document.importNode(template, true);
 
   templateCopy.querySelector('.name').textContent = `${person.firstName}  ${person.lastName}`;
   templateCopy.querySelector('.profile-image').src = `https://robohash.org/${person.firstName}.png`;
   templateCopy.querySelector('.github-link').href = `https://github.com/${person.userName}`;
-  templateCopy.querySelector('.email').href = `mailto:${person.firstName}.${person.lastName}@hyperisland.se`;
-  
+  let emailFirstName = person.firstName;
+  emailFirstName = emailFirstName.replace(' ', '.');
+  emailFirstName = emailFirstName.replace('é', 'e');
+  let emailLastName = person.lastName;
+  emailLastName = emailLastName.replace(' ', '.');
+  emailLastName = emailLastName.replace('-', '');
+  emailLastName = emailLastName.replace('é', 'e');
+  emailLastName = emailLastName.replace('á', 'a');
+  emailLastName = emailLastName.replace('ä', 'a');
+  emailLastName = emailLastName.replace('Å', 'A');
+  emailLastName = emailLastName.replace('ö', 'o');
+  templateCopy.querySelector('.email').href = `mailto:${emailFirstName}.${emailLastName}@hyperisland.se`;
+
+
   if (userData.location == null){
     templateCopy.querySelector('.location').textContent = "Sweden";
   } else {
     templateCopy.querySelector('.location').textContent = `${userData.location}`;
-  }
+  }         
+  const main = document.getElementById('main');
   main.appendChild(templateCopy);
 }
 
 
-function fetchColorData(){
-  const imgElement = document.querySelector('.profile-image');
-  return colorThief.getPalette(imgElement);
+function fetchColorData(index) {
+  const imgElement = document.querySelectorAll('.profile-image');
+  return colorThief.getPalette(imgElement[index]);
 }
 
 
@@ -107,21 +117,47 @@ async function createExperience(projectData, color){
 
 
 function convertToPercent(experienceArray){
-  
+  let sum = 0;
+  let percentage = 0;
+
   experienceArray.forEach(experience => {
-    console.log(experience.bytes);
+    sum += experience.bytes;
+  });
+
+  experienceArray.forEach(experience => {
+    percentage = Math.round((experience.bytes / sum) * 1000) / 10;
+    experience.bytes = percentage;
+  })
+
+  return experienceArray;
+}
+
+
+function createProgressBar(experienceArray, index) {
+  const progressTemplate = document.getElementById('progress-template').content;
+
+  experienceArray.forEach(experience => {
+    let progressTemplateCopy = document.importNode(progressTemplate, true);
+    progressTemplateCopy.querySelector('.progress-bar').style.width = experience.bytes + "%";
+    progressTemplateCopy.querySelector('.progress-bar').style.background = `rgb(${experience.color[0]}, ${experience.color[1]}, ${experience.color[2]})`;
+
+    let backgroundBar = document.querySelectorAll(".background-bar");
+    backgroundBar[index].appendChild(progressTemplateCopy);
   });
 }
 
 
+function createLanguageText(experienceArray, index) {
+  const languageTemplate = document.getElementById('language-template').content;
 
+  experienceArray.forEach(experience => {
+    let languageTemplateCopy = document.importNode(languageTemplate, true);
+    languageTemplateCopy.querySelector('.dot').style.background = `rgb(${experience.color[0]}, ${experience.color[1]}, ${experience.color[2]})`;
+    languageTemplateCopy.querySelector('.text').textContent = experience.language;
+    languageTemplateCopy.querySelector('.procent').textContent = experience.bytes + "%";
 
+    let textContainer = document.querySelectorAll(".text-container");
+    textContainer[index].appendChild(languageTemplateCopy);
+  });
+}
 
-
-
-
-
-
-
-
-  

@@ -2,16 +2,9 @@ import personsInClass from './persondata.js';
 
 const main = document.getElementById('main');
 const template = document.getElementById('template').content;
-let templateCopy;
 const apiUrl = 'https://api.github.com/users/'
-//let userData;
-//let projectData;
-let languageData;
-let languageValues;
-let languageKeys;
 const colorThief = new ColorThief();
 let successfulLoop = false;
-let bytesSum;
 
 
 
@@ -19,7 +12,6 @@ let bytesSum;
 
 
 personsInClass.forEach(async person => {
-  
   let userData = await fetchUserData(person);
   createFedCard(userData, person);
   let color = fetchColorData();
@@ -56,7 +48,7 @@ async function fetchUserData(person) {
 
 
 function createFedCard(userData, person) { 
-  templateCopy = document.importNode(template, true);
+  let templateCopy = document.importNode(template, true);
 
   templateCopy.querySelector('.name').textContent = `${person.firstName}  ${person.lastName}`;
   templateCopy.querySelector('.profile-image').src = `https://robohash.org/${person.firstName}.png`;
@@ -86,9 +78,9 @@ async function fetchProjectData(person) {
 async function createExperience(projectData, color){
   let experienceArray = [];
   await Promise.all(projectData.map(async project => {
-    languageData = await getData(project.languages_url);
-    languageValues = Object.values(languageData);
-    languageKeys = Object.keys(languageData); 
+    let languageData = await getData(project.languages_url);
+    let languageValues = Object.values(languageData);
+    let languageKeys = Object.keys(languageData); 
     
     if (languageValues.length > 0) { //if project does not contain any languages
       languageKeys.forEach((language, index) => {
@@ -110,31 +102,12 @@ async function createExperience(projectData, color){
     }
   }))
 
-
   return experienceArray;
 }
 
 
 function convertToPercent(experienceArray){
   
-  console.log(experienceArray);
-  //console.log(experienceArray[0].bytes);
-  // let testingArray = [
-  //   {
-  //     name: "Elin",
-  //     number: 2
-  //   },
-  //   {
-  //     name: "Hi",
-  //     number: 3
-  //   },
-  //   {
-  //     name: "Hello",
-  //     number: 4
-  //   }
-  // ]
-  // console.log(testingArray);
-  // console.log(testingArray[0].name);
   experienceArray.forEach(experience => {
     console.log(experience.bytes);
   });

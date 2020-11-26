@@ -1,22 +1,31 @@
 import personsInClass from './persondata.js';
-const apiUrl = 'https://api.github.com/users/'
+const apiUrl = 'https://api.github.com/users/';
+const encodedToken = 'ZDQ4YWQ2YTA5ZjA5YjVmNjY3OTg5OGQ4NDA2MTM5ZmVhMGIxNjUyYwo=';
+const apiOptions = 
+{
+  cache: 'force-cache',
+  headers: {
+    'Authorization': `token ${decodeToken(encodedToken)}`
+  }
+}
 const colorThief = new ColorThief();
 let successfulLoop = false;
 
 
 
-//-------------------PROGRAM FLOW-------------------
 
+//-------------------PROGRAM FLOW-------------------
 
 Promise.all(personsInClass.map(async (person, index) => {
   let userData = await fetchUserData(person);
   createFedCard(userData, person);
-  let color = fetchColorData(index);
+  let color = await fetchColorData(person);
   let projectData = await fetchProjectData(person);
-  let experienceArray = await createExperience(projectData, color);
+  let experienceArray = await createExperience(projectData, color, person.firstName);
   experienceArray = convertToPercent(experienceArray);
-  createProgressBar(experienceArray, index);
-  createLanguageText(experienceArray, index);
+  experienceArray = checkForOther(experienceArray, person);
+  createProgressBar(experienceArray, person);
+  createLanguageText(experienceArray, person);
 })); 
 
 
@@ -32,9 +41,14 @@ class Experience {
 
 
 async function getData(url) {
-  const resp = await fetch(url);
+  const resp = await fetch(url, apiOptions);
   const respData = await resp.json();
   return respData;
+}
+
+
+function decodeToken(encodedToken) {
+  return window.atob(encodedToken);
 }
 
 
@@ -49,7 +63,10 @@ function createFedCard(userData, person) {
 
   templateCopy.querySelector('.name').textContent = `${person.firstName}  ${person.lastName}`;
   templateCopy.querySelector('.profile-image').src = `https://robohash.org/${person.firstName}.png`;
+  templateCopy.querySelector('.profile-image').id = `profile-${person.lastName}`;
   templateCopy.querySelector('.github-link').href = `https://github.com/${person.userName}`;
+  templateCopy.querySelector('.background-bar').id = `bar-${person.lastName}`;
+  templateCopy.querySelector('.text-container').id = `text-${person.lastName}`;
   let emailFirstName = person.firstName;
   emailFirstName = emailFirstName.replace(' ', '.');
   emailFirstName = emailFirstName.replace('é', 'e');
@@ -74,9 +91,9 @@ function createFedCard(userData, person) {
 }
 
 
-function fetchColorData(index) {
-  const imgElement = document.querySelectorAll('.profile-image');
-  return colorThief.getPalette(imgElement[index]);
+function fetchColorData(person) {
+  const imgElement = document.getElementById(`profile-${person.lastName}`);
+  return colorThief.getPalette(imgElement, 20);
 }
 
 
@@ -85,14 +102,14 @@ async function fetchProjectData(person) {
 };
 
 
-async function createExperience(projectData, color){
+async function createExperience(projectData, color, person){
   let experienceArray = [];
   await Promise.all(projectData.map(async project => {
     let languageData = await getData(project.languages_url);
     let languageValues = Object.values(languageData);
     let languageKeys = Object.keys(languageData); 
     
-    if (languageValues.length > 0) { //if project does not contain any languages
+    if (languageValues.length > 0) { //if project contains languages
       languageKeys.forEach((language, index) => {
         if (experienceArray.length == 0){ //for first project of the person
           experienceArray.push(new Experience(language,languageValues[index],color[index]));
@@ -133,7 +150,28 @@ function convertToPercent(experienceArray){
 }
 
 
-function createProgressBar(experienceArray, index) {
+function checkForOther(experienceArray,person){
+  let sumOfOther = 0;
+  console.log(person, experienceArray);  
+    
+  let sumFunction = function(total, currentExperience){
+    return total + currentExperience.bytes;
+  }
+
+  sumOfOther = experienceArray.filter(experience=>experience.bytes < 1).reduce(sumFunction, 0);
+  experienceArray = experienceArray.filter(experience=>experience.bytes > 1);
+
+  if(sumOfOther > 0){
+    experienceArray.splice()
+    experienceArray.push(new Experience("Other",sumOfOther,[33,45,50]));
+  }
+
+  console.log(person, experienceArray);
+  return experienceArray;
+}
+
+
+function createProgressBar(experienceArray, person) {
   const progressTemplate = document.getElementById('progress-template').content;
 
   experienceArray.forEach(experience => {
@@ -141,13 +179,13 @@ function createProgressBar(experienceArray, index) {
     progressTemplateCopy.querySelector('.progress-bar').style.width = experience.bytes + "%";
     progressTemplateCopy.querySelector('.progress-bar').style.background = `rgb(${experience.color[0]}, ${experience.color[1]}, ${experience.color[2]})`;
 
-    let backgroundBar = document.querySelectorAll(".background-bar");
-    backgroundBar[index].appendChild(progressTemplateCopy);
+    let backgroundBar = document.getElementById(`bar-${person.lastName}`);
+    backgroundBar.appendChild(progressTemplateCopy);
   });
 }
 
 
-function createLanguageText(experienceArray, index) {
+function createLanguageText(experienceArray, person) {
   const languageTemplate = document.getElementById('language-template').content;
 
   experienceArray.forEach(experience => {
@@ -156,8 +194,8 @@ function createLanguageText(experienceArray, index) {
     languageTemplateCopy.querySelector('.text').textContent = experience.language;
     languageTemplateCopy.querySelector('.procent').textContent = experience.bytes + "%";
 
-    let textContainer = document.querySelectorAll(".text-container");
-    textContainer[index].appendChild(languageTemplateCopy);
+    let textContainer = document.getElementById(`text-${person.lastName}`);
+    textContainer.appendChild(languageTemplateCopy);
   });
 }
 

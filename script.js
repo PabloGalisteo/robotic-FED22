@@ -158,12 +158,12 @@ function checkForOther(experienceArray,person){
     return total + currentExperience.bytes;
   }
 
-  sumOfOther = experienceArray.filter(experience=>experience.bytes < 1).reduce(sumFunction, 0);
+  sumOfOther = Math.round(experienceArray.filter(experience=>experience.bytes < 1).reduce(sumFunction, 0)*10) / 10;
   experienceArray = experienceArray.filter(experience=>experience.bytes > 1);
 
   if(sumOfOther > 0){
     experienceArray.splice()
-    experienceArray.push(new Experience("Other",sumOfOther,[33,45,50]));
+    experienceArray.push(new Experience("Other",sumOfOther,[54,51,74]));
   }
 
   console.log(person, experienceArray);

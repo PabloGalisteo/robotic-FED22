@@ -17,13 +17,24 @@ let successfulLoop = false;
 //-------------------PROGRAM FLOW-------------------
 
 personsInClass.forEach(person => {
+  displaySkeletonCard()
+});
+
+personsInClass.forEach(person => {
   let userData = fetchUserData(person);
   createFedCard(userData, person);
-}); 
+})
+
 
 
 
 //-------------------FUNCTIONS-------------------
+function displaySkeletonCard() {
+  const skeletonCardTemplate = document.getElementById('skeleton-card-template').content;
+  let skeletonCardTemplateCopy = document.importNode(skeletonCardTemplate, true);
+  document.querySelector('.skeleton-main').appendChild(skeletonCardTemplateCopy);
+};
+
 class Experience {
   constructor(language, bytes, color) {
     this.language = language;
@@ -71,6 +82,7 @@ function createFedCard(userData, person) {
     experienceArray = checkForOther(experienceArray, person);
     createProgressBar(experienceArray, person);
     createLanguageText(experienceArray, person);
+    showContent();
   })
 
   templateCopy.querySelector('.github-link').href = `https://github.com/${person.userName}`;
@@ -88,7 +100,6 @@ function createFedCard(userData, person) {
   emailLastName = emailLastName.replace('Å', 'A');
   emailLastName = emailLastName.replace('ö', 'o');
   templateCopy.querySelector('.email').href = `mailto:${emailFirstName}.${emailLastName}@hyperisland.se`;
-
 
   if (userData.location == null){
     templateCopy.querySelector('.location').textContent = "Sweden";
@@ -202,5 +213,10 @@ function createLanguageText(experienceArray, person) {
     let textContainer = document.getElementById(`text-${person.lastName}`);
     textContainer.appendChild(languageTemplateCopy);
   });
+}
+
+function showContent(){
+  document.getElementById('content').style.display = 'block';
+  document.getElementById('skeleton').style.display = 'none';
 }
 

@@ -5,88 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Robotic FED22</title>
 
-    <!-- Google Fonts-->
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-
-    <!--Fontawsome-->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-      integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
-      crossorigin="anonymous"
-    />
-    <!--Color Api-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.min.js"></script>
-    
     <script src="script.js" type="module" defer></script>
     <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="images/favicon.ico">
+
+    <!-- Google Fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <!--Fontawsome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous"/>
+    <!--Color Api-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.min.js"></script>
+    <!--Animation library-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
   </head>
 
   <body>
-    <header>
-      <h1>FED22 - Business Cards</h1>
-    </header>
+    <div id="skeleton">
+      <div class="loading-animation"></div>
+      <div class="skeleton-header"></div>
+      <div class="skeleton-main">
+        <template id="skeleton-card-template">
+          <div class="skeleton-card">
+            <div class="skeleton-image"></div>
+          </div>
+        </template>
+      </div>
+      <div class="skeleton-footer"></div>
+    </div>
 
-    <main id="main">
-      <template id="template">
-        <div id="card">
-          <span class="profile-background"
-            ><img
-              class="profile-image"
-              src=""
-              alt="robot-profile-picture"
-              crossorigin="anonymous"/></span>
-          <h2 class="name">Name Namesson</h2>
-          
-          <div class="experience-container">
-          <span class="background-bar"></span>
-          <div class="text-container"></div>
-        </div>
 
-          <div class="card-footer">
-            <div class="links">
-              <a href="" target="_blank" class="github-link"
-                ><i class="fab fa-github"></i
-              ></a>
-              <a href="" target="_blank" class="email"
-                ><i class="far fa-envelope"></i
-              ></a>
-            </div>
-
-            <div class="location-container">
-              <p class="location">Stockholm City</p>
-              <a href=""><i class="fas fa-map-marker-alt"></i></a>
+    <div id="content">
+      <header>
+        <h1>FED22 - Business Cards</h1>
+      </header>
+  
+      <main id="main">
+        <template id="template">
+          <div id="card">
+            <span class="profile-background"
+              ><img
+                class="profile-image"
+                src=""
+                alt="robot-profile-picture"
+                crossorigin="anonymous"/></span>
+            <h2 class="name">Name Namesson</h2>
+            
+            <div class="experience-container">
+            <span class="background-bar"></span>
+            <div class="text-container"></div>
+          </div>
+  
+            <div class="card-footer">
+              <div class="links">
+                <a href="" target="_blank" class="github-link"
+                  ><i class="fab fa-github"></i
+                ></a>
+                <a href="" target="_blank" class="email"
+                  ><i class="far fa-envelope"></i
+                ></a>
+              </div>
+  
+              <div class="location-container">
+                <p class="location">Stockholm City</p>
+                <a href=""><i class="fas fa-map-marker-alt"></i></a>
+              </div>
             </div>
           </div>
-        </div>
-      </template>
-
-      <!-- template for progress bar -->
-      <template id="progress-template">
-        <span class="progress-bar"></span>
-      </template> 
-
-      <!-- template for languages -->
-      <template id="language-template">
-         <span class="language">
-            <span class="dot"></span>
-            <span class="text"></span>
-            <span class="procent"></span>
-         </span>
-      </template>
-      
-    </main>
-
-    <footer>
-      <p class="footer-p">
-        Made with ❤️ by team 4 <a href="#"><i class="fab fa-github"></i></a>
-      </p>
-    </footer>
-
+        </template>
+  
+        <!-- template for progress bar -->
+        <template id="progress-template">
+          <span class="progress-bar"></span>
+        </template> 
+  
+        <!-- template for languages -->
+        <template id="language-template">
+           <span class="language">
+              <span class="dot"></span>
+              <span class="text"></span>
+              <span class="procent"></span>
+           </span>
+        </template>
+        
+      </main>
+  
+      <footer>
+        <p class="footer-p">Made with ❤️ by team 4</p>
+      </footer>
+    </div>
+    
   </body>
 </html>
   

@@ -12,8 +12,65 @@
   --small-gap: 0.5rem;
 }
 
+body {
+  position: relative;
+  overflow-x: hidden;
+  animation: opening 1s;
+}
+
 a {
   color: #000;
+}
+
+#content{
+  display:none;
+}
+
+/*---------------SKELETON----------------*/
+.loading-animation{
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top:0;
+  left: 0;
+  background: linear-gradient(90deg, transparent, white, transparent, transparent, white, transparent);
+  animation: load 6s ease infinite;
+  z-index: 1;
+}
+
+.skeleton-header {
+  background-color: var(--light-grey);
+  height: 75vh;
+}
+
+.skeleton-main {
+  padding: 15vh 7vw;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  grid-auto-rows: 15.75rem;
+  grid-gap: 2.75rem;
+}
+
+.skeleton-card {
+  border: 1px solid var(--light-grey);
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 1.5rem;
+  position: relative;
+}
+
+.skeleton-image {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 100%;
+  background-color: var(--light-grey);
+}
+
+.skeleton-footer {
+  background-color: var(--light-grey);
+  height: 5rem;
 }
 
 /*---------------HEADER----------------*/
@@ -167,6 +224,14 @@ footer i {
   main {
     padding-top: 8vh;
   }
+
+  .skeleton-header {
+    height: 32vh;
+  }
+  
+  .skeleton-main {
+    padding-top: 8vh;
+  }
 }
 
 /* ipad */
@@ -204,6 +269,25 @@ footer i {
   #card h2 {
     margin: 0 auto;
   }
+
+  .skeleton-header {
+    height: 30vh;
+  }
+  
+  .skeleton-main {
+    padding: 10vh 7vw;
+    grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+    grid-auto-rows: 26.5rem;
+  }
+  
+  .skeleton-image {
+    position: relative;
+    width: 9.5rem;
+    height: 9.5rem;
+    margin: 0 auto;
+    top: 0;
+    right: 0;
+  }
 }
 
 /* mobile */
@@ -217,4 +301,28 @@ footer i {
     grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
     grid-auto-rows: 26.5rem;
   }
+
+  .skeleton-header {
+    height: 35vh;
+  }
+  
+  .skeleton-main {
+    padding: 9vh 15vw;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    grid-auto-rows: 26.5rem;
+  }
+}
+
+@keyframes opening {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes load{
+  from {left: -100%}
+  to {left: 100%}
 }

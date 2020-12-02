@@ -16,17 +16,10 @@ let successfulLoop = false;
 
 //-------------------PROGRAM FLOW-------------------
 
-Promise.all(personsInClass.map(async (person, index) => {
-  let userData = await fetchUserData(person);
+personsInClass.forEach(person => {
+  let userData = fetchUserData(person);
   createFedCard(userData, person);
-  let color = await fetchColorData(person);
-  let projectData = await fetchProjectData(person);
-  let experienceArray = await createExperience(projectData, color, person.firstName);
-  experienceArray = convertToPercent(experienceArray);
-  experienceArray = checkForOther(experienceArray, person);
-  createProgressBar(experienceArray, person);
-  createLanguageText(experienceArray, person);
-})); 
+}); 
 
 
 
@@ -41,9 +34,14 @@ class Experience {
 
 
 async function getData(url) {
-  const resp = await fetch(url, apiOptions);
-  const respData = await resp.json();
-  return respData;
+  try {
+    const resp = await fetch(url, apiOptions);
+    const respData = await resp.json();
+    return respData;
+  } catch {
+    document.getElementById('main').innerHTML = 'Oops..! Something went wrong, please try again later.'
+  }
+  
 }
 
 
@@ -52,8 +50,8 @@ function decodeToken(encodedToken) {
 }
 
 
-async function fetchUserData(person) {
-  return await getData(apiUrl + person.userName);
+function fetchUserData(person) {
+  return getData(apiUrl + person.userName);
 };
 
 
@@ -64,6 +62,17 @@ function createFedCard(userData, person) {
   templateCopy.querySelector('.name').textContent = `${person.firstName}  ${person.lastName}`;
   templateCopy.querySelector('.profile-image').src = `https://robohash.org/${person.firstName}.png`;
   templateCopy.querySelector('.profile-image').id = `profile-${person.lastName}`;
+
+  templateCopy.querySelector('.profile-image').addEventListener('load', async function (){
+    let color = await fetchColorData(person);
+    let projectData = await fetchProjectData(person);
+    let experienceArray = await createExperience(projectData, color, person.firstName);
+    experienceArray = convertToPercent(experienceArray);
+    experienceArray = checkForOther(experienceArray, person);
+    createProgressBar(experienceArray, person);
+    createLanguageText(experienceArray, person);
+  })
+
   templateCopy.querySelector('.github-link').href = `https://github.com/${person.userName}`;
   templateCopy.querySelector('.background-bar').id = `bar-${person.lastName}`;
   templateCopy.querySelector('.text-container').id = `text-${person.lastName}`;
@@ -97,8 +106,8 @@ function fetchColorData(person) {
 }
 
 
-async function fetchProjectData(person) {
-  return await getData(apiUrl + person.userName + '/repos'); 
+function fetchProjectData(person) {
+  return getData(apiUrl + person.userName + '/repos'); 
 };
 
 
@@ -150,10 +159,8 @@ function convertToPercent(experienceArray){
 }
 
 
-function checkForOther(experienceArray,person){
-  let sumOfOther = 0;
-  console.log(person, experienceArray);  
-    
+function checkForOther(experienceArray){
+  let sumOfOther = 0; 
   let sumFunction = function(total, currentExperience){
     return total + currentExperience.bytes;
   }
@@ -165,8 +172,6 @@ function checkForOther(experienceArray,person){
     experienceArray.splice()
     experienceArray.push(new Experience("Other",sumOfOther,[54,51,74]));
   }
-
-  console.log(person, experienceArray);
   return experienceArray;
 }
 
